@@ -1,4 +1,10 @@
-FROM alpine:3.4
+FROM golang:1.13.4-alpine3.10 as builder
+RUN mkdir -p /go/src/pokesay
+WORKDIR /go/src/pokesay
+COPY . .
+RUN go build ./...
+
+FROM golang:1.13.4-alpine3.10
 
 RUN apk update && \
   apk add git perl
@@ -14,5 +20,8 @@ RUN git clone git://github.com/possatti/pokemonsay && \
   sh install.sh
 
 ENV PATH /usr/games:$PATH
+WORKDIR /
+COPY --from=builder /go/src/pokesay/pokesay .
 
-ENTRYPOINT ["/root/bin/pokemonsay"]
+ENTRYPOINT ["./pokesay"]
+

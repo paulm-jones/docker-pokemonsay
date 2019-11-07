@@ -1,0 +1,5 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/challenge-lab1-254419/pokemonsay', '.' ]
+images:
+  - 'gcr.io/challenge-lab1-254419/pokemonsay'
